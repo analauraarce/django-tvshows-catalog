@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="section-title text-center mb-4">
+    <h2 class="text-success">{{ dynamic_title }}</h2>
+    <p class="text-muted">Browse the catalog — click any poster to view full size.</p>
+  </div>
+
+  <form method="get">
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        {% if selected_genre %}
+          <input type="hidden" id="genre-hidden" name="genre" value="{{ selected_genre }}">
+        {% endif %}
+        {% if selected_country %}
+          <input type="hidden" id="country-hidden" name="country" value="{{ selected_country }}">
+        {% endif %}
+        <input class="form-control border-success" name="q" placeholder="Search TV show titles" autocomplete="off" style="max-width: 440px;" value="{{ q|default:'' }}">
+        <button type="submit" class="btn btn-outline-success ms-2">Search</button>
+      </div> 
+    </div>    
+  </form>
+
+  <!-- ===== Filters: Genre (buttons) + Country ===== -->
+  <div class="row mb-4">
+    <div class="col-12 text-center mb-3">
+      <h5 class="text-success mb-3">Filter by Genre:</h5>
+      <div class="btn-group flex-wrap justify-content-center" role="group" aria-label="Genre filters">
+        {% for genre in genres %}
+          <a data-genre-link href="?genre={{ genre.name|urlencode }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}"
+             class="btn btn-outline-success {% if genre.name == selected_genre %}active{% endif %}">
+            {{ genre.name }}
+          </a>
+        {% endfor %}
+        <a data-clear-genre href="?{% if selected_country %}country={{ selected_country }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}" class="btn btn-outline-secondary ms-2">Clear genre</a>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 offset-md-3 text-center">
+      <!-- Country selector (AJAX). Updates results and URL on change, without page reload -->
+      <h5 class="text-success mb-3">Filter by Country:</h5>
+      <div class="d-flex justify-content-center">  
+        <select id="country-select" name="country" class="form-select border-success text-success" style="width:100%">
+          <option value="">-- Select country (All) --</option>
+          {% for country in countries %}
+            <option value="{{ country.id }}" {% if country.id == selected_country %}selected{% endif %}>
+              {{ country.name }}
+            </option>
+          {% endfor %}
+        </select>
+        <!-- Clear country (GET, no JS) -->
+        <a href="{% if selected_genre %}?genre={{ selected_genre }}{% else %}?{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}"
+          class="btn btn-outline-secondary ms-2">
+          Clear country
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- ===== End Filters ===== -->
+
+  {% include "catalog/partials/_tvshow_results.html" %}
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const countrySelect = document.getElementById('country-select');
+  const resultsContainer = document.getElementById('tvshow-results');
+
+  if (!countrySelect || !resultsContainer) return;
+
+  countrySelect.addEventListener('change', function () {
+    const countryId = this.value;
+
+    /* ✅ FIX REAL: sync country with search form */
+    let countryHidden = document.getElementById('country-hidden');
+
+    if (countryId) {
+      if (!countryHidden) {
+        countryHidden = document.createElement('input');
+        countryHidden.type = 'hidden';
+        countryHidden.name = 'country';
+        countryHidden.id = 'country-hidden';
+        document.querySelector('form[method="get"]').appendChild(countryHidden);
+      }
+      countryHidden.value = countryId;
+    } else {
+      if (countryHidden) {
+        countryHidden.remove();
+      }
+    }
+
+    // Read current URL parameters
+    const params = new URLSearchParams(window.location.search);
+
+    // Update country parameter
+    if (countryId) {
+      params.set('country', countryId);
+    } else {
+      params.delete('country');
+    }
+
+    const newUrl = `?${params.toString()}`;
+
+    // Update browser URL WITHOUT reloading the page
+    window.history.pushState({}, '', newUrl);
+
+    // Update genre links to preserve the selected country
+    document.querySelectorAll('[data-genre-link]').forEach(link => {
+      const url = new URL(link.getAttribute('href'), window.location.origin);
+
+      if (countryId) {
+        url.searchParams.set('country', countryId);
+      } else {
+        url.searchParams.delete('country');
+      }
+
+      link.setAttribute('href', url.search);
+    });
+
+    // Update "Clear genre" link to keep current country
+    const clearGenreLink = document.querySelector('[data-clear-genre]');
+    if (clearGenreLink) {
+      const url = new URL(clearGenreLink.getAttribute('href'), window.location.origin);
+
+      // Always remove genre
+      url.searchParams.delete('genre');
+
+      // Keep current country
+      if (countryId) {
+        url.searchParams.set('country', countryId);
+      } else {
+        url.searchParams.delete('country');
+      }
+
+      clearGenreLink.setAttribute('href', url.search);
+    }
+
+    // Ajax request to update results only
+    fetch(newUrl, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      resultsContainer.innerHTML = data.html;
+    })
+    .catch(error => {
+      console.error('Ajax error:', error);
+    });
+  });
+});
+</script>
+{% endblock %}
+

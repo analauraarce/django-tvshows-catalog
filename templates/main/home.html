@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<section id="hero" class="hero d-flex align-items-center">
+    <div class="container text-center">
+        <div class="row justify-content-center">    
+            <h1 class="fw-bold">Welcome to the TV Shows Catalog</h1>
+            <h2 class="fs-4 w-100 mt-3">Discover series, explore genres, and browse details — built with Django &amp; Bootstrap Green</h2>
+            <!-- CTA extra -->
+            <h3 class="fs-5 mt-3">Start exploring</h3>
+            <p>{{ dynamic_message }}</p>
+        </div>
+        <a href="{% url 'tvshow_list' %}" class="btn-get-started">Start</a>        
+    </div>
+</section>
+{% endblock %}
+
+

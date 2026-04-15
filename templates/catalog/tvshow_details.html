@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container mt-3 mb-4">
+
+  <!-- Series header section -->
+  <section class="hero text-center">
+    <div class="row justify-content-center">
+      <h2 class="fs-4 mt-3">{{ show.name }}</h2>
+      <p>
+        Released in 
+        {% if show.first_air_date %}
+          {{ show.first_air_date.year }}
+        {% else %}
+          Unknown
+        {% endif %}
+      </p>
+    </div>
+  </section>
+
+  <!-- Main content area with poster and details -->
+  <div class="row light-background mt-4 align-items-start">
+    
+    <!-- Poster column -->
+    <div class="col-md-4">
+      <div class="card h-100 border-success shadow-sm series-card position-relative">
+        <div class="card-img-top d-flex align-items-center justify-content-center" style="background-color:#f8f9fa;">
+          <a href="{{ show.poster_url }}" target="_blank" rel="noopener noreferrer" title="Open full image">
+            <img
+              src="{{ show.poster_url }}"
+              alt="{{ show.name }}"
+              style="max-height:400px; width:100%; object-fit:contain;"
+              loading="lazy"
+            >
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info column -->
+    <div class="col-md-8 d-flex flex-column justify-content-center">
+      <p class="fs-6 mt-2 mb-2">{{ show.overview }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>From:</strong> {{ show.first_air_date|default:"Unknown" }}<strong> - To:</strong> {{ show.last_air_date|default:"Unknown" }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>Original language:</strong> {{ show.original_language|upper }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>Number of seasons:</strong> {{ show.number_of_seasons }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>Number of episodes:</strong> {{ show.number_of_episodes }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>Average rating:</strong> {{ show.vote_average }}</p>
+      <p class="fs-6 mt-2 mb-2"><strong>Genres:</strong>
+        {% for genre in genres %}
+          {{ genre.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
+      <p class="fs-6 mt-2 mb-2"><strong>Countries of origin:</strong>
+        {% for country in countries %}
+          {{ country.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
