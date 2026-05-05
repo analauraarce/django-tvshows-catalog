@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,14 +78,11 @@ WSGI_APPLICATION = "series_project.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        'ENGINE': 'django.db.backends.postgresql',  # Specifies the PostgreSQL database engine
-        'NAME': 'series_project',  # Name of the PostgreSQL database created
-        'USER': 'postgres',  # PostgreSQL username
-        'PASSWORD': 'postgres*8',  # Password for the PostgreSQL user
-        'HOST': 'localhost',  # Host where the database is running (default is localhost)
-        'PORT': '5432',  # Default port for PostgreSQL
-    }
+    'default': dj_database_url.parse(
+        'postgresql://tvshows_db_zbkm_user:U62bmdNKc5cKeooxZy6csUz66CnU97VW@dpg-d7rmgoa8qa3s73dk4pc0-a.frankfurt-postgres.render.com/tvshows_db_zbkm',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
