@@ -35,6 +35,8 @@ def tvshow_list(request):
     
     tvshows = tvshows.distinct().order_by('id')
 
+    tvshows = tvshows[:100]
+
     genres = Genre.objects.all()
 
     countries = Country.objects.all() 
