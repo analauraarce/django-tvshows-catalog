@@ -37,3 +37,46 @@
       {% endfor %}
     </div>
 </div>
+
+{% if tvshows.has_other_pages %}
+<div class="d-flex justify-content-center mt-4">
+  <nav aria-label="TV show pagination">
+    <ul class="pagination">
+
+      {% if tvshows.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ tvshows.previous_page_number }}{% if selected_genre %}&genre={{ selected_genre|urlencode }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}">
+            Previous
+          </a>
+        </li>
+      {% endif %}
+
+      {% for num in tvshows.paginator.page_range %}
+        {% if num == tvshows.number %}
+          <li class="page-item active">
+            <span class="page-link">{{ num }}</span>
+          </li>
+        {% elif num >= tvshows.number|add:"-2" and num <= tvshows.number|add:"2" %}
+          <li class="page-item">
+            <a class="page-link"
+               href="?page={{ num }}{% if selected_genre %}&genre={{ selected_genre|urlencode }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}">
+              {{ num }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if tvshows.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ tvshows.next_page_number }}{% if selected_genre %}&genre={{ selected_genre|urlencode }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}">
+            Next
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+</div>
+{% endif %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import TVShow, Genre, TVShowGenre, Country, TVShowCountry
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.core.paginator import Paginator
 
 # Helper function to prepare poster URLs 
 def prepare_poster_url(show):
@@ -35,7 +36,11 @@ def tvshow_list(request):
     
     tvshows = tvshows.distinct().order_by('id')
 
-    tvshows = tvshows[:100]
+    paginator = Paginator(tvshows, 50)
+
+    page_number = request.GET.get('page')
+
+    tvshows = paginator.get_page(page_number)
 
     genres = Genre.objects.all()
 
