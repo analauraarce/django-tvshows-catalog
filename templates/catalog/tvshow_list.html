@@ -59,7 +59,9 @@
   </div>
   <!-- ===== End Filters ===== -->
 
-  {% include "catalog/partials/_tvshow_results.html" %}
+  <div id="tvshow-results">
+    {% include "catalog/partials/_tvshow_results.html" %}
+  </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Read current URL parameters
     const params = new URLSearchParams(window.location.search);
+    params.delete('page');
 
     // Update country parameter
     if (countryId) {
