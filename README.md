@@ -84,3 +84,17 @@ The dataset used for this project comes from an external source. Some entries ma
 
 Since no reliable metadata field was available to consistently identify and filter such content without removing legitimate titles, the dataset was kept largely intact.
 
+## Screenshots
+
+### Home Page
+
+![Home Page](screenshots/home-page.png)
+
+### Catalog — Search and Filters
+
+![Catalog — Search and Filters](screenshots/catalog-filters.png)
+
+### TV Show Details
+
+![TV Show Details](screenshots/tvshow-details.png)
+
