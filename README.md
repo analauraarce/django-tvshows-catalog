@@ -54,7 +54,7 @@ Main entities:
 
 The project uses the following public dataset:
 
-- All TV Series Details Dataset (Kaggle)
+- All TV Series Details Dataset (Kaggle: https://www.kaggle.com/datasets/bourdier/all-tv-series-details-dataset)
 
 The original dataset was cleaned and normalized before being imported into PostgreSQL. This process helped structure the data consistently for the application's relational model and filtering functionality.
 
@@ -97,4 +97,98 @@ Since no reliable metadata field was available to consistently identify and filt
 ### TV Show Details
 
 ![TV Show Details](screenshots/tvshow-details.png)
+
+## Lessons Learned
+
+This project provided hands-on experience with:
+
+- Django application structure and template-based development
+- Relational database design and data normalization
+- PostgreSQL integration and deployment workflows
+- Search, filtering, AJAX interactions, and pagination
+- Working with large datasets in a web application
+- Deploying and maintaining a Django application on Render
+
+## Future Improvements
+
+Possible future enhancements include:
+
+- Additional filtering options
+- REST API version of the project
+- Dockerized deployment
+- User authentication and personalized features
+- Further query optimization and performance tuning
+
+## Credits
+
+- Dataset: All TV Series Details Dataset (Kaggle)
+- Front-end template: Green Bootstrap Template by BootstrapMade
+- Poster images and TV show metadata originate from the dataset source
+
+## Usage
+
+Users can:
+
+- Browse a catalog of more than 44,000 TV shows
+- Search TV shows by title
+- Filter results by genre
+- Filter results by country of origin
+- Combine search and filtering options
+- View detailed information for each TV show
+- Navigate results using pagination
+
+## Deployment
+
+The application is deployed on Render and uses:
+
+- PostgreSQL as the production database
+- Gunicorn as the WSGI server
+- WhiteNoise for static file serving
+
+## Author
+
+Ana Laura Arce
+
+GitHub: https://github.com/analauraarce
+
+## Installation / Local Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/analauraarce/django-tvshows-catalog.git
+cd django-tvshows-catalog
+```
+
+2. Create and activate a virtual environment:
+
+```bash
+python -m venv env_series_site
+env_series_site\Scripts\activate
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Create a PostgreSQL database named `series_project` and configure the database connection in `series_project/settings.py` with the appropriate PostgreSQL username, password, host, and port.
+
+5. Apply migrations:
+
+```bash
+python manage.py migrate
+```
+
+6. Start the development server:
+
+```bash
+python manage.py runserver
+```
+
+The application database was built from a cleaned and normalized version of the original dataset.
+
+Due to dataset size and licensing considerations, the processed import files used during development are not included in the repository.
+
 
