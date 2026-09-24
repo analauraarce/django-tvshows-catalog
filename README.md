@@ -10,6 +10,10 @@ Users can search the catalog by title and refine results using genre and country
 
 This project was developed as part of a back-end portfolio with a focus on relational database design, filtering and search functionality, pagination, deployment, and maintainable Django development practices.
 
+## Live Demo
+
+[TV Shows Catalog on Render](https://django-tvshows-catalog.onrender.com/)
+
 ## Features
 
 - Browse a catalog of more than 44,000 TV shows.
@@ -26,7 +30,7 @@ This project was developed as part of a back-end portfolio with a focus on relat
 
 ## Technologies Used
 
-- Python 3
+- Python 3.12.3
 - Django 5.1
 - PostgreSQL
 - Bootstrap 5 (Green Template)
@@ -54,7 +58,7 @@ Main entities:
 
 The project uses the following public dataset:
 
-- All TV Series Details Dataset (Kaggle: https://www.kaggle.com/datasets/bourdier/all-tv-series-details-dataset)
+- [All TV Series Details Dataset](https://www.kaggle.com/datasets/bourdier/all-tv-series-details-dataset)
 
 The original dataset was cleaned and normalized before being imported into PostgreSQL. This process helped structure the data consistently for the application's relational model and filtering functionality.
 
@@ -125,32 +129,6 @@ Possible future enhancements include:
 - Front-end template: Green Bootstrap Template by BootstrapMade
 - Poster images and TV show metadata originate from the dataset source
 
-## Usage
-
-Users can:
-
-- Browse a catalog of more than 44,000 TV shows
-- Search TV shows by title
-- Filter results by genre
-- Filter results by country of origin
-- Combine search and filtering options
-- View detailed information for each TV show
-- Navigate results using pagination
-
-## Deployment
-
-The application is deployed on Render and uses:
-
-- PostgreSQL as the production database
-- Gunicorn as the WSGI server
-- WhiteNoise for static file serving
-
-## Author
-
-Ana Laura Arce
-
-GitHub: https://github.com/analauraarce
-
 ## Installation / Local Setup
 
 1. Clone the repository:
@@ -189,6 +167,30 @@ python manage.py runserver
 
 The application database was built from a cleaned and normalized version of the original dataset.
 
-Due to dataset size and licensing considerations, the processed import files used during development are not included in the repository.
+The processed import files used during development are not included in the repository due to their size and project scope.
 
+## Usage
 
+Users can:
+
+- Browse a catalog of more than 44,000 TV shows
+- Search TV shows by title
+- Filter results by genre
+- Filter results by country of origin
+- Combine search and filtering options
+- View detailed information for each TV show
+- Navigate results using pagination
+
+## Deployment
+
+The application is deployed on Render and uses:
+
+- PostgreSQL as the production database
+- Gunicorn as the WSGI server
+- WhiteNoise for static file serving
+
+## Author
+
+Ana Laura Arce
+
+GitHub: https://github.com/analauraarce
